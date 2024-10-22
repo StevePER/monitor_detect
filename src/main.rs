@@ -52,6 +52,8 @@ unsafe extern "system" fn enumerate_monitors_callback(
 ) -> BOOL {
     // Get the userdata where we will store the result
     let monitors: &mut Vec<MONITORINFOEXW> = mem::transmute(userdata);
+    // ***** The fix for this problem is to change the line above to this:
+    //let monitors = &mut *(userdata as *mut Vec<MONITORINFOEXW>);
 
     // Initialize the MONITORINFOEXW structure and get a pointer to it
     let mut monitor_info: MONITORINFOEXW = mem::zeroed();

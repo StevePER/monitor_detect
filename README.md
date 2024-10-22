@@ -20,3 +20,10 @@ Error enumerating monitor information. GetMonitorInfoW failed, result != TRUE
 result=1, TRUE=1
 Error enumerating monitor information. GetMonitorInfoW failed, result != TRUE
 ```
+
+*The fix*
+To allow rust to track variable usage correctly, we need to change one line in the callback function.
+Change this:
+`let monitors: &mut Vec<MONITORINFOEXW> = mem::transmute(userdata);`
+to this:
+`let monitors = &mut *(userdata as *mut Vec<MONITORINFOEXW>);`
